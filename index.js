@@ -49,6 +49,8 @@ function createMainWindow() {
             preload: path.join(__dirname, "preload.js")
         },
         frame: false,
+        resizable: false,
+        minimizable: false,
         alwaysOnTop: !!parseInt(cfgContent.AOT)
     });
 
@@ -77,6 +79,8 @@ app.whenReady().then(() => {
                 contextIsolation: true,
                 preload: path.join(__dirname, "preload.js")
             },
+            resizable: false,
+            minimizable: false,
             alwaysOnTop: true
         });
     }
