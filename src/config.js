@@ -46,7 +46,23 @@ function cfgReset()
     });
 }
 
+window.api.receive("cfgReturn", (data) => {
+    configElements.textInput.value = data.text;
+    configElements.textColourInput.value = data.textColour;
+    configElements.bgColourInput.value = data.bgColour;
+    configElements.fontInput.value = data.font;
+    configElements.marginInput.value = data.margin;
+    configElements.speedInput.value = data.speed;
+    configElements.FPSInput.value = data.FPS;
+    configElements.AOTInput.value = data.AOT;
+    configElements.widthInput.value = data.width;
+    configElements.heightInput.value = data.height;
+});
+window.api.send("cfgRequest");
+
 window.addEventListener("keydown", function(e){
     if (e.code == "Escape")
         window.api.send("quit", "configWindow");
+    else if (e.code == "Enter")
+        cfgApply();
 });
