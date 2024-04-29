@@ -91,8 +91,8 @@ app.on('window-all-closed', () => {
 
 // Handle config requests
 ipcMain.on("cfgRequest", (event, args) => {
-    mainWindow.webContents.on("did-finish-load", function(){
-        mainWindow.webContents.send("cfgReturn", cfgContent);
+    event.sender.on("did-finish-load", function(){
+        event.sender.send("cfgReturn", cfgContent);
     });
 });
 ipcMain.on("cfgOpenWindow", (event, args) => {
