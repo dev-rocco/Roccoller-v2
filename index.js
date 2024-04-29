@@ -1,9 +1,9 @@
-const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron');
+const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('node:path');
 const fs = require("fs");
 
-const CFG_Path = "./config.json";
-let cfgContent = JSON.parse(fs.readFileSync(CFG_Path));
+const CFG_PATH = "./config.json";
+let cfgContent = JSON.parse(fs.readFileSync(CFG_PATH));
 
 // In main scope for access from IPC
 let mainWindow;
@@ -48,9 +48,13 @@ function updateMainWindow()
 app.whenReady().then(() => {
     if (parseInt(cfgContent.initialised) == "0")
     {
+        let monitorWidth = screen.getPrimaryDisplay().workAreaSize.width;
+        cfgContent.width = monitorWidth;
+        fs.writeFileSync(CFG_PATH, JSON.stringify(cfgContent));
+
         welcomeWindow = createWindow("src/welcome.html", {
             width: 800,
-            height: 600,
+            height: 250,
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: true,
@@ -59,9 +63,9 @@ app.whenReady().then(() => {
             alwaysOnTop: true
         });
         welcomeWindow.on("closed", function(){
-            let tempCfgContent = JSON.parse(fs.readFileSync(CFG_Path));
+            let tempCfgContent = JSON.parse(fs.readFileSync(CFG_PATH));
             tempCfgContent.initialised = "1";
-            fs.writeFileSync(CFG_Path, JSON.stringify(tempCfgContent));
+            fs.writeFileSync(CFG_PATH, JSON.stringify(tempCfgContent));
         });
     }
     createMainWindow();
@@ -99,7 +103,7 @@ ipcMain.on("cfgOpenWindow", (event, args) => {
     configWindowOpen = true;
 });
 ipcMain.on("cfgUpdate", (event, args) => {
-    console.log("Saving new configuration object to "+CFG_Path);
+    console.log("Saving new configuration object to "+CFG_PATH);
 
     // Update changes live (no need to reset application)
     // mainWindow.setSize(parseInt(args.width), parseInt(args.height));
@@ -108,7 +112,7 @@ ipcMain.on("cfgUpdate", (event, args) => {
     updateMainWindow();
 
     // Store new data to config.json
-    fs.writeFileSync(CFG_Path, JSON.stringify(args));
+    fs.writeFileSync(CFG_PATH, JSON.stringify(args));
 
     // Close and reset config window
     if (configWindowOpen) configWindow.close();

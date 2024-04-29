@@ -2,15 +2,19 @@
 <html>
     <head>
         <title>Welcome!</title>
+        <link type="text/css" href="secondary.css" rel="stylesheet" />
     </head>
     <body>
         <h1>Hey!</h1>
-        <p>It looks like it's your first time using the app.</p>
+        <h3>It looks like it's your first time using the app.</h3>
+        <p>Press <b style="color:cornflowerblue">C</b> at any time with the program focused to open the configuration menu.<br/>This allows you to change the text, colour, font, speed and more!<br/><br/>Press <b style="color:cornflowerblue">Escape</b> to close menus.</p>
 
         <script type="text/javascript">
             document.addEventListener("keydown", function(e){
                 if (e.code == "Escape")
                     window.api.send("quit", "welcomeWindow");
+                else if (e.code == "KeyC")
+                    window.api.send("cfgOpenWindow");
             });
         </script>
     </body>
