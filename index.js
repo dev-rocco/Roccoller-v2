@@ -7,6 +7,9 @@ let cfgContent = JSON.parse(fs.readFileSync(CFG_Path));
 
 // In main scope for access from IPC
 let mainWindow;
+let mainWindowCloseEventFunc = function(){
+    app.quit();
+};
 let configWindow;
 let configWindowOpen = false;
 let welcomeWindow;
@@ -31,9 +34,14 @@ function createMainWindow() {
         frame: false,
         alwaysOnTop: !!parseInt(cfgContent.AOT)
     });
-    mainWindow.on("closed", function(){
-        app.quit();
-    });
+
+    mainWindow.on("closed", mainWindowCloseEventFunc);
+}
+function updateMainWindow()
+{
+    mainWindow.off("closed", mainWindowCloseEventFunc);
+    mainWindow.close();
+    createMainWindow();
 }
 
 // On app load (initialisation)
@@ -65,7 +73,9 @@ app.on('window-all-closed', () => {
 
 // Handle config requests
 ipcMain.on("cfgRequest", (event, args) => {
-    mainWindow.webContents.send("cfgReturn", cfgContent);
+    mainWindow.webContents.on("did-finish-load", function(){
+        mainWindow.webContents.send("cfgReturn", cfgContent);
+    });
 });
 ipcMain.on("cfgOpenWindow", (event, args) => {
     if (configWindowOpen == false)
@@ -92,10 +102,10 @@ ipcMain.on("cfgUpdate", (event, args) => {
     console.log("Saving new configuration object to "+CFG_Path);
 
     // Update changes live (no need to reset application)
-    mainWindow.webContents.send("cfgReturn", args);
-    mainWindow.setSize(parseInt(args.width), parseInt(args.height));
-    mainWindow.alwaysOnTop = !!parseInt(args.AOT);
-    console.log(!!parseInt(args.AOT));
+    // mainWindow.setSize(parseInt(args.width), parseInt(args.height));
+    // mainWindow.alwaysOnTop = !!parseInt(args.AOT);
+    cfgContent = args;
+    updateMainWindow();
 
     // Store new data to config.json
     fs.writeFileSync(CFG_Path, JSON.stringify(args));
