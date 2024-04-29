@@ -24,9 +24,7 @@ let cfgContent = JSON.parse(fs.readFileSync(CFG_PATH));
 
 // In main scope for access from IPC
 let mainWindow;
-let mainWindowCloseEventFunc = function(){
-    app.quit();
-};
+const MAIN_WINDOW_CLOSE_EVENT_FUNC = function(){ app.quit(); };
 let configWindow;
 let configWindowOpen = false;
 let welcomeWindow;
@@ -54,11 +52,11 @@ function createMainWindow() {
         alwaysOnTop: !!parseInt(cfgContent.AOT)
     });
 
-    mainWindow.on("closed", mainWindowCloseEventFunc);
+    mainWindow.on("closed", MAIN_WINDOW_CLOSE_EVENT_FUNC);
 }
 function updateMainWindow()
 {
-    mainWindow.off("closed", mainWindowCloseEventFunc);
+    mainWindow.off("closed", MAIN_WINDOW_CLOSE_EVENT_FUNC);
     mainWindow.close();
     createMainWindow();
 }
@@ -122,8 +120,6 @@ ipcMain.on("cfgUpdate", (event, args) => {
     console.log("Saving new configuration object to "+CFG_PATH);
 
     // Update changes live (no need to reset application)
-    // mainWindow.setSize(parseInt(args.width), parseInt(args.height));
-    // mainWindow.alwaysOnTop = !!parseInt(args.AOT);
     cfgContent = args;
     updateMainWindow();
 
