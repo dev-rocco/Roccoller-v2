@@ -65,8 +65,8 @@ function updateMainWindow()
 app.whenReady().then(() => {
     if (parseInt(cfgContent.initialised) == "0")
     {
-        let monitorWidth = screen.getPrimaryDisplay().workAreaSize.width;
-        cfgContent.width = monitorWidth;
+        cfgContent.initialised = "1";
+        cfgContent.width = screen.getPrimaryDisplay().workAreaSize.width;
         fs.writeFileSync(CFG_PATH, JSON.stringify(cfgContent));
 
         welcomeWindow = createWindow("src/welcome.html", {
@@ -78,11 +78,6 @@ app.whenReady().then(() => {
                 preload: path.join(__dirname, "preload.js")
             },
             alwaysOnTop: true
-        });
-        welcomeWindow.on("closed", function(){
-            let tempCfgContent = JSON.parse(fs.readFileSync(CFG_PATH));
-            tempCfgContent.initialised = "1";
-            fs.writeFileSync(CFG_PATH, JSON.stringify(tempCfgContent));
         });
     }
     createMainWindow();
