@@ -7,11 +7,11 @@ if (!fs.existsSync(CFG_PATH))
 {
     fs.writeFileSync(CFG_PATH, JSON.stringify({
         initialised:"0",
-        text:"Welcome to Roccoller. Please edit the config file in the application folder to change this placeholder text. You can even change the colour, speed and size!",
+        text:"Welcome to Roccoller v2! Press C to open the configuration menu. Here, you can change the text, colours, font, speed and more!",
         textColour:"#ffff00",
         bgColour:"#000000",
         font:"32px Arial",
-        margin:"8",
+        margin:"4",
         speed:"100",
         FPS:"60",
         AOT:"1",
