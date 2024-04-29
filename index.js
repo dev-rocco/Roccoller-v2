@@ -3,6 +3,23 @@ const path = require('node:path');
 const fs = require("fs");
 
 const CFG_PATH = "./config.json";
+if (!fs.existsSync(CFG_PATH))
+{
+    fs.writeFileSync(CFG_PATH, JSON.stringify({
+        initialised:"0",
+        text:"Welcome to Roccoller. Please edit the config file in the application folder to change this placeholder text. You can even change the colour, speed and size!",
+        textColour:"#ffff00",
+        bgColour:"#000000",
+        font:"32px Arial",
+        margin:"8",
+        speed:"100",
+        FPS:"60",
+        AOT:"1",
+        width:"800",
+        height:"48"
+    }));
+    console.log(CFG_PATH+" created");
+}
 let cfgContent = JSON.parse(fs.readFileSync(CFG_PATH));
 
 // In main scope for access from IPC

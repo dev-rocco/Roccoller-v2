@@ -7,6 +7,7 @@ let configElements =
     fontInput: document.getElementById("cfgFontInput"),
     marginInput: document.getElementById("cfgMarginInput"),
     speedInput: document.getElementById("cfgSpeedInput"),
+    FPSInput: document.getElementById("cfgFPSInput"),
     AOTInput: document.getElementById("cfgAOTInput"),
     widthInput: document.getElementById("cfgWidthInput"),
     heightInput: document.getElementById("cfgHeightInput")
@@ -22,6 +23,7 @@ function cfgApply()
         font: configElements.fontInput.value,
         margin: configElements.marginInput.value,
         speed: configElements.speedInput.value,
+        FPS: configElements.FPSInput.value,
         AOT: (Number(configElements.AOTInput.checked)).toString(),
         width: configElements.widthInput.value,
         height: configElements.heightInput.value
@@ -37,6 +39,7 @@ function cfgReset()
         font: "32px Arial",
         margin: "8",
         speed: "100",
+        FPS: 60,
         AOT: "1",
         width: "800",
         height: "48"
