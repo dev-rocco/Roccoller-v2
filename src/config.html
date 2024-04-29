@@ -3,25 +3,58 @@
     <head>
         <title>Roccoller Config</title>
         <style>
-            body {
+            html, body {
                 text-align: center;
-                background-color: #050505;
+                font-family: Arial;
+                padding: 0;
+                margin: 0;
+                background-color: #080808;
                 color: #F0F0F0;
+                overflow: hidden;
+            }
+            button {
+                border:none;
+                font-size: 16px;
+                margin: 4px;
+            }
+            #applyButton {
+                background-color:cornflowerblue;
+                font-size: 20px;
+            }
+            /* #defaultsButton {
+                background-color: ;
+            } */
+            input {
+                border: none;
+            }
+
+            #header, h1 {
+                background-color: #151515;
+                padding: 4px;
+                margin: 0;
             }
         </style>
     </head>
     <body>
-        <h1>Config</h1>
-        <p>Text</p> <input id="cfgTextInput" />
-        <p>Font</p> <input id="cfgFontInput" />
-        <p>Text Colour</p> <input type="color" id="cfgTextColourInput" />
-        <p>Background Colour</p> <input type="color" id="cfgBgColourInput" />
-        <p>Margin</p> <input id="cfgMarginInput" />
-        <p>Speed</p> <input id="cfgSpeedInput" />
-        <p>Always On Top</p> <input id="cfgAOTInput" />
-        <p>Default Size</p> <input id="cfgWidthInput" /> <input id="cfgHeightInput" />
+        <div id="header">
+            <h1>⚙️</h1>
+        </div>
+        <p>Text <input id="cfgTextInput" placeholder="Display message" value="Welcome to Roccoller. Please edit the config file in the application folder to change this placeholder text. You can even change the colour, speed and size!" /></p>
+        <p>Font <input id="cfgFontInput" placeholder="Font size and name" value="32px Arial" /></p>
+        <p>Text Colour <input type="color" id="cfgTextColourInput" value="#FFFF00" /></p>
+        <p>Background Colour <input type="color" id="cfgBgColourInput" value="#000000" /></p>
+        <p>Margin <input id="cfgMarginInput" placeholder="Space from top" value="8" /></p>
+        <p>Speed <input id="cfgSpeedInput" placeholder="Scroll speed" value="100" /></p>
+        <p>Always On Top <input type="checkbox" id="cfgAOTInput" checked="1" /></p>
+
+        <div>
+            <p>Default Size</p>
+            <input id="cfgWidthInput" placeholder="Width" value="800" /> <input id="cfgHeightInput" placeholder="Height" value="48" />
+        </div>
         <br/>
-        <button id="cfgApplyButton" onclick="cfgApply()">Apply and Save</button>
+        <button id="applyButton" onclick="cfgApply()">Apply and Save</button>
+        <br/>
+        <button id="defaultsButton" onclick="cfgReset()">Reset to Default</button>
 
         <script type="text/javascript" src="config.js"></script>
     </body>

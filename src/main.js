@@ -23,9 +23,8 @@ function render()
 function update()
 {
     for (let i=0; i<textLocs.length; i++)
-    {
         textLocs[i]--;
-    }
+
     render();
 }
 
@@ -38,12 +37,17 @@ function resizeWindow()
 window.addEventListener("resize", resizeWindow);
 resizeWindow();
 
-window.api.receive("cfgReturn", (data) => { configContent = data; console.log(data); window.setInterval(update, 1000 / parseInt(data.speed)); });
+let intervalObj;
+window.api.receive("cfgReturn", (data) => {
+    configContent = data; console.log(data);
+    if (intervalObj != undefined) window.clearInterval(intervalObj);
+    intervalObj = window.setInterval(update, 1000 / parseInt(data.speed));
+});
 window.api.send("cfgRequest");
 
 window.addEventListener("keydown", function(e) {
     if (e.code == "KeyC")
-    {
         window.api.send("cfgOpenWindow");
-    }
+    else if (e.code == "Escape")
+        window.api.send("quit", "mainWindow");
 });

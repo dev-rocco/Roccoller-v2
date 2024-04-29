@@ -14,18 +14,36 @@ let configElements =
 
 function cfgApply()
 {
-    let configValues =
-    {
-        textInput: configElements.textInput.value,
-        textColourInput: configElements.textColourInput.value,
-        bgColourInput: configElements.bgColourInput.value,
-        fontInput: configElements.fontInput.value,
-        marginInput: configElements.marginInput.value,
-        speedInput: configElements.speedInput.value,
-        AOTInput: configElements.AOTInput.value,
-        widthInput: configElements.widthInput.value,
-        heightInput: configElements.heightInput.value
-    };
-    console.log(configValues);
-    window.api.send("cfgUpdate", configValues);
+    window.api.send("cfgUpdate", {
+        initialised: "1",
+        text: configElements.textInput.value,
+        textColour: configElements.textColourInput.value,
+        bgColour: configElements.bgColourInput.value,
+        font: configElements.fontInput.value,
+        margin: configElements.marginInput.value,
+        speed: configElements.speedInput.value,
+        AOT: (Number(configElements.AOTInput.checked)).toString(),
+        width: configElements.widthInput.value,
+        height: configElements.heightInput.value
+    });
 }
+function cfgReset()
+{
+    window.api.send("cfgUpdate", {
+        initialised: "1",
+        text: "Welcome to Roccoller. Please edit the config file in the application folder to change this placeholder text. You can even change the colour, speed and size!",
+        textColour: "#FFFF00",
+        bgColour: "#000000",
+        font: "32px Arial",
+        margin: "8",
+        speed: "100",
+        AOT: "1",
+        width: "800",
+        height: "48"
+    });
+}
+
+window.addEventListener("keydown", function(e){
+    if (e.code == "Escape")
+        window.api.send("quit", "configWindow");
+});

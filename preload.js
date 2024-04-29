@@ -4,7 +4,7 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld(
     "api", {
         send: (channel, data) => {
-            let validChannels = ["cfgRequest", "cfgUpdate", "cfgOpenWindow"];
+            let validChannels = ["cfgRequest", "cfgUpdate", "cfgOpenWindow", "quit"];
             if (validChannels.includes(channel)) {
                 ipcRenderer.send(channel, data);
             }

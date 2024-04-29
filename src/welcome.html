@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome!</title>
+    </head>
+    <body>
+        <h1>Hey!</h1>
+        <p>It looks like it's your first time using the app.</p>
+
+        <script type="text/javascript">
+            document.addEventListener("keydown", function(e){
+                if (e.code == "Escape")
+                    window.api.send("quit", "welcomeWindow");
+            });
+        </script>
+    </body>
+</html>
