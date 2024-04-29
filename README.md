@@ -7,4 +7,4 @@ Intended as an informational banner for virtual chatrooms in which the host's sc
 
 ## Bindings
 Press **C** to open config menu.
-Press **F** to toggle the main window frame.
+Press **Escape** to close any focused window.
