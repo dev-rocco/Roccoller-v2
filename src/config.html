@@ -8,13 +8,15 @@
         <div id="header">
             <h1>⚙️</h1>
         </div>
-        <p>Text <input id="cfgTextInput" placeholder="Display message" value="Welcome to Roccoller v2! Press C to open the configuration menu. Here, you can change the text, colours, font, speed and more!" /></p>
-        <p>Font <input id="cfgFontInput" placeholder="Font size and name" value="32px Arial" /></p>
-        <p>Text Colour <input type="color" id="cfgTextColourInput" value="#FFFF00" /></p>
-        <p>Background Colour <input type="color" id="cfgBgColourInput" value="#000000" /></p>
-        <p>Margin <input id="cfgMarginInput" placeholder="Space from top" value="4" /></p>
-        <p>Speed <input id="cfgSpeedInput" placeholder="Scroll speed" value="100" /></p>
-        <p>FPS <input id="cfgFPSInput" placeholder="Frames per second (AFFECTS SPEED)" value="60" /></p>
+        <p>Text <input id="cfgTextInput" placeholder="Display message" /></p>
+        <p>Font <input id="cfgFontInput" placeholder="Font size and name" /></p>
+        <span><button onclick="changeFontSize(-4)">-</button><button onclick="changeFontSize(4)">+</button></span>
+        <h4 id="cfgFontSizePreview">?px</h4>
+        <p>Text Colour <input type="color" id="cfgTextColourInput" /></p>
+        <p>Background Colour <input type="color" id="cfgBgColourInput" /></p>
+        <p>Margin <input id="cfgMarginInput" placeholder="Space from top" /></p>
+        <p>Speed <input id="cfgSpeedInput" placeholder="Scroll speed" /></p>
+        <p>FPS <input id="cfgFPSInput" placeholder="Frames per second" /></p>
         <p>Always On Top <input type="checkbox" id="cfgAOTInput" checked="1" /></p>
 
         <div>

@@ -11,7 +11,7 @@ function makeText()
 {
     textPositions.push(textPositions[textPositions.length-1]);
     let tempText = document.createElement("h1");
-    tempText.style = "position:fixed; top:0px; white-space:nowrap; color:"+configContents.textColour+"; font:"+configContents.font+"; padding:"+configContents.margin+"px;";
+    tempText.style = "position:fixed; top:0px; white-space:nowrap; color:"+configContents.textColour+"; font-family:"+configContents.fontFamily+"; font-size:"+configContents.fontSize+"px; padding:"+configContents.margin+"px;";
     tempText.innerHTML = configContents.text;
     tempText.className = "unselectable";
     marqueeTexts.push(tempText);

@@ -16,6 +16,11 @@ input {
     border: none;
 }
 
+#cfgFontSizePreview {
+    padding: 0;
+    margin: 0;
+}
+
 #applyButton {
     background-color:cornflowerblue;
     font-size: 20px;

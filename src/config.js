@@ -1,10 +1,13 @@
 // Config window
+let fontSize = 32;
+
 let configElements =
 {
     textInput: document.getElementById("cfgTextInput"),
     textColourInput: document.getElementById("cfgTextColourInput"),
     bgColourInput: document.getElementById("cfgBgColourInput"),
     fontInput: document.getElementById("cfgFontInput"),
+    fontSizePreview: document.getElementById("cfgFontSizePreview"),
     marginInput: document.getElementById("cfgMarginInput"),
     speedInput: document.getElementById("cfgSpeedInput"),
     FPSInput: document.getElementById("cfgFPSInput"),
@@ -20,7 +23,8 @@ function cfgApply()
         text: configElements.textInput.value,
         textColour: configElements.textColourInput.value,
         bgColour: configElements.bgColourInput.value,
-        font: configElements.fontInput.value,
+        fontFamily: configElements.fontInput.value,
+        fontSize: fontSize.toString(),
         margin: configElements.marginInput.value,
         speed: configElements.speedInput.value,
         FPS: configElements.FPSInput.value,
@@ -36,7 +40,8 @@ function cfgReset()
         text: "Welcome to Roccoller v2! Press C to open the configuration menu. Here, you can change the text, colours, font, speed and more!",
         textColour: "#FFFF00",
         bgColour: "#000000",
-        font: "32px Arial",
+        fontFamily: "Arial",
+        fontSize: "32",
         margin: "4",
         speed: "100",
         FPS: "60",
@@ -46,11 +51,26 @@ function cfgReset()
     });
 }
 
+function changeFontSize(amount, setNotIncrement=false)
+{
+    if ((amount < 0 && fontSize > 16) || (amount > 0 && fontSize < 96))
+    {
+        if (setNotIncrement)
+            fontSize = amount;
+        else
+            fontSize += amount;
+        configElements.fontSizePreview.style = "font-size:"+fontSize+"px";
+        configElements.fontSizePreview.innerHTML = fontSize.toString() + "px";
+    }
+}
+changeFontSize(0);
+
 window.api.receive("cfgReturn", (data) => {
     configElements.textInput.value = data.text;
     configElements.textColourInput.value = data.textColour;
     configElements.bgColourInput.value = data.bgColour;
-    configElements.fontInput.value = data.font;
+    configElements.fontInput.value = data.fontFamily;
+    changeFontSize(parseInt(data.fontSize), true);
     configElements.marginInput.value = data.margin;
     configElements.speedInput.value = data.speed;
     configElements.FPSInput.value = data.FPS;
