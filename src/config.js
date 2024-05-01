@@ -7,6 +7,7 @@ let configElements =
     textColourInput: document.getElementById("cfgTextColourInput"),
     bgColourInput: document.getElementById("cfgBgColourInput"),
     fontInput: document.getElementById("cfgFontInput"),
+    autoHeightInput: document.getElementById("cfgAutoHeightInput"),
     fontSizePreview: document.getElementById("cfgFontSizePreview"),
     marginInput: document.getElementById("cfgMarginInput"),
     speedInput: document.getElementById("cfgSpeedInput"),
@@ -18,6 +19,10 @@ let configElements =
 
 function cfgApply()
 {
+    let tempHeight;
+    if (configElements.autoHeightInput.value) tempHeight = fontSize;
+    else tempHeight = configElements.heightInput.value;
+
     window.api.send("cfgUpdate", {
         initialised: "1",
         text: configElements.textInput.value,
@@ -30,7 +35,7 @@ function cfgApply()
         FPS: configElements.FPSInput.value,
         AOT: (Number(configElements.AOTInput.checked)).toString(),
         width: configElements.widthInput.value,
-        height: configElements.heightInput.value
+        height: tempHeight
     });
 }
 function cfgReset()

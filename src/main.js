@@ -1,37 +1,40 @@
 // Main window
-let marqueeTexts = [];
 let configContents = {};
 
-let textPositions = [];
+let textObjects = [];
 let parsedSpeed;
 let parsedTextWidth = 0;
 const SPACING = 70;
 
 function makeText()
 {
-    textPositions.push(textPositions[textPositions.length-1]);
     let tempText = document.createElement("h1");
-    tempText.style = "position:fixed; top:0px; white-space:nowrap; color:"+configContents.textColour+"; font-family:"+configContents.fontFamily+"; font-size:"+configContents.fontSize+"px; padding:"+configContents.margin+"px;";
+    tempText.style = "position:fixed; white-space:nowrap; color:"+configContents.textColour+"; font-family:"+configContents.fontFamily+"; font-size:"+configContents.fontSize+"px; margin:"+configContents.margin+"px; line-height:"+parseInt(configContents.fontSize)*0.8+"px;";
     tempText.innerHTML = configContents.text;
     tempText.className = "unselectable";
-    marqueeTexts.push(tempText);
+    textObjects.push({
+        element: tempText,
+        x: window.innerWidth
+    });
     document.body.appendChild(tempText);
 }
 
 function update()
 {
-    for (let i=0; i<marqueeTexts.length; i++)
+    if (textObjects[textObjects.length-1].x + parsedTextWidth <= window.innerWidth - SPACING)
+        makeText();
+
+    for (let i=0; i<textObjects.length; i++)
     {
-        textPositions[i] -= parsedSpeed;
-        if (textPositions[i] + parsedTextWidth == window.innerWidth - SPACING)
-            makeText();
-        else if (textPositions[i] + parsedTextWidth < 0)
+        textObjects[i].x -= parsedSpeed;
+
+        if (textObjects[i].x + parsedTextWidth < 0)
         {
-            textPositions.splice(i, 1);
-            marqueeTexts[i].remove();
-            marqueeTexts.splice(i, 1);
+            textObjects[i].element.remove();
+            textObjects.splice(i, 1);
         }
-        marqueeTexts[i].style.left = textPositions[i]+"px";
+
+        textObjects[i].element.style.left = textObjects[i].x+"px";
     }
 }
 
@@ -41,11 +44,9 @@ window.api.receive("cfgReturn", (data) => {
     console.log(data);
     configContents = data;
     parsedSpeed = parseInt(data.speed) / 100;
-    textPositions[0] = parseInt(data.width);
-    textPositions[1] = parseInt(data.width) + parsedTextWidth;
     
     makeText();
-    parsedTextWidth = parseInt(marqueeTexts[0].clientWidth);
+    parsedTextWidth = parseInt(textObjects[0].element.clientWidth);
 
     window.setInterval(update, 1000/parseInt(data.FPS)); // call update data.FPS times per second
 });
