@@ -12,7 +12,7 @@ if (!fs.existsSync(CFG_PATH))
         bgColour:"#000000",
         fontFamily:"Arial",
         fontSize:"32",
-        margin:"8",
+        margin:"4",
         speed:"100",
         FPS:"60",
         AOT:"1",
