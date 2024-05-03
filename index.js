@@ -12,12 +12,12 @@ if (!fs.existsSync(CFG_PATH))
         bgColour:"#000000",
         fontFamily:"Arial",
         fontSize:"32",
-        margin:"4",
+        margin:"8",
         speed:"100",
         FPS:"60",
         AOT:"1",
         width:"800",
-        height:"48"
+        height:"40"
     }));
     console.log(CFG_PATH+" created");
 }

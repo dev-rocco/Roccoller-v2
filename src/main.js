@@ -9,7 +9,7 @@ const SPACING = 70;
 function makeText()
 {
     let tempText = document.createElement("h1");
-    tempText.style = "position:fixed; white-space:nowrap; color:"+configContents.textColour+"; font-family:"+configContents.fontFamily+"; font-size:"+configContents.fontSize+"px; margin:"+configContents.margin+"px; line-height:"+parseInt(configContents.fontSize)*0.8+"px;";
+    tempText.style = "position:fixed; white-space:nowrap; color:"+configContents.textColour+"; font-family:"+configContents.fontFamily+"; font-size:"+configContents.fontSize+"px; margin:"+configContents.margin+"px; line-height:"+parseInt(configContents.fontSize)+"px;";
     tempText.innerHTML = configContents.text;
     tempText.className = "unselectable";
     textObjects.push({

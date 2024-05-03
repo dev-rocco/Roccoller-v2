@@ -20,7 +20,7 @@ let configElements =
 function cfgApply()
 {
     let tempHeight;
-    if (configElements.autoHeightInput.value) tempHeight = fontSize;
+    if (configElements.autoHeightInput.value) tempHeight = fontSize * 1.1;
     else tempHeight = configElements.heightInput.value;
 
     window.api.send("cfgUpdate", {
@@ -35,7 +35,7 @@ function cfgApply()
         FPS: configElements.FPSInput.value,
         AOT: (Number(configElements.AOTInput.checked)).toString(),
         width: configElements.widthInput.value,
-        height: tempHeight
+        height: tempHeight.toString()
     });
 }
 function cfgReset()
@@ -47,18 +47,18 @@ function cfgReset()
         bgColour: "#000000",
         fontFamily: "Arial",
         fontSize: "32",
-        margin: "4",
+        margin: "8",
         speed: "100",
         FPS: "60",
         AOT: "1",
         width: "800",
-        height: "48"
+        height: "40"
     });
 }
 
 function changeFontSize(amount, setNotIncrement=false)
 {
-    if ((amount < 0 && fontSize > 16) || (amount > 0 && fontSize < 96))
+    if ((amount <= 0 && fontSize > 16) || (amount >= 0 && fontSize < 96))
     {
         if (setNotIncrement)
             fontSize = amount;
