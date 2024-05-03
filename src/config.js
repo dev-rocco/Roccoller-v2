@@ -58,7 +58,7 @@ function cfgReset()
 
 function changeFontSize(amount, setNotIncrement=false)
 {
-    if ((amount <= 0 && fontSize > 16) || (amount >= 0 && fontSize < 96))
+    if ((amount <= 0 && fontSize > 16) || (amount >= 0 && fontSize < 200))
     {
         if (setNotIncrement)
             fontSize = amount;
