@@ -3,22 +3,24 @@ const path = require('node:path');
 const fs = require("fs");
 
 const CFG_PATH = "./config.json";
+let CFG_DEFAULT = {
+    initialised:"0",
+    text:"Welcome to Roccoller v2! Press C to open the configuration menu. Here, you can change the text, colours, font, speed and more!",
+    textColour:"#ffff00",
+    bgColour:"#000000",
+    fontFamily:"Arial",
+    fontSize:"32",
+    margin:"0",
+    speed:"100",
+    FPS:"60",
+    AOT:"1",
+    width:"800",
+    height:"40",
+    autoHeight: "1"
+};
 if (!fs.existsSync(CFG_PATH))
 {
-    fs.writeFileSync(CFG_PATH, JSON.stringify({
-        initialised:"0",
-        text:"Welcome to Roccoller v2! Press C to open the configuration menu. Here, you can change the text, colours, font, speed and more!",
-        textColour:"#ffff00",
-        bgColour:"#000000",
-        fontFamily:"Arial",
-        fontSize:"32",
-        margin:"4",
-        speed:"100",
-        FPS:"60",
-        AOT:"1",
-        width:"800",
-        height:"40"
-    }));
+    fs.writeFileSync(CFG_PATH, JSON.stringify(CFG_DEFAULT));
     console.log(CFG_PATH+" created");
 }
 let cfgContent = JSON.parse(fs.readFileSync(CFG_PATH));
@@ -66,8 +68,9 @@ function updateMainWindow()
 app.whenReady().then(() => {
     if (parseInt(cfgContent.initialised) == "0")
     {
+        CFG_DEFAULT.width = screen.getPrimaryDisplay().workAreaSize.width;
         cfgContent.initialised = "1";
-        cfgContent.width = screen.getPrimaryDisplay().workAreaSize.width;
+        cfgContent.width = CFG_DEFAULT.width;
         fs.writeFileSync(CFG_PATH, JSON.stringify(cfgContent));
 
         welcomeWindow = createWindow("src/welcome.html", {
@@ -118,18 +121,33 @@ ipcMain.on("cfgOpenWindow", (event, args) => {
     configWindowOpen = true;
 });
 ipcMain.on("cfgUpdate", (event, args) => {
-    console.log("Saving new configuration object to "+CFG_PATH);
+    if (args == "default")
+    {
+        cfgContent = CFG_DEFAULT;
+        cfgContent.initialised = "1";
+        updateMainWindow();
 
-    // Update changes live (no need to reset application)
-    cfgContent = args;
-    updateMainWindow();
+        if (configWindowOpen)
+            configWindow.close();
+        configWindowOpen = false;
+    }
+    else
+    {
+        console.log("Saving new configuration object to "+CFG_PATH);
 
-    // Store new data to config.json
-    fs.writeFileSync(CFG_PATH, JSON.stringify(args));
+        // Update changes live (no need to reset application)
+        if (args.width == "default") args.width = CFG_DEFAULT.width;
+        cfgContent = args;
+        updateMainWindow();
 
-    // Close and reset config window
-    if (configWindowOpen) configWindow.close();
-    configWindowOpen = false;
+        // Store new data to config.json
+        fs.writeFileSync(CFG_PATH, JSON.stringify(args));
+
+        // Close and reset config window
+        if (configWindowOpen)
+            configWindow.close();
+        configWindowOpen = false;
+    }
 });
 ipcMain.on("quit", (event, args) => {
     switch(args)

@@ -14,13 +14,14 @@ let configElements =
     FPSInput: document.getElementById("cfgFPSInput"),
     AOTInput: document.getElementById("cfgAOTInput"),
     widthInput: document.getElementById("cfgWidthInput"),
-    heightInput: document.getElementById("cfgHeightInput")
+    heightInput: document.getElementById("cfgHeightInput"),
+    autoHeight: document.getElementById("cfgAutoHeightInput")
 };
 
 function cfgApply()
 {
     let tempHeight;
-    if (configElements.autoHeightInput.value) tempHeight = fontSize * 1.1;
+    if (configElements.autoHeight.checked) tempHeight = (fontSize * 1.2) + 5;
     else tempHeight = configElements.heightInput.value;
 
     window.api.send("cfgUpdate", {
@@ -35,40 +36,33 @@ function cfgApply()
         FPS: configElements.FPSInput.value,
         AOT: (Number(configElements.AOTInput.checked)).toString(),
         width: configElements.widthInput.value,
-        height: tempHeight.toString()
+        height: tempHeight.toString(),
+        autoHeight: (Number(configElements.autoHeight.checked)).toString()
     });
 }
 function cfgReset()
 {
-    window.api.send("cfgUpdate", {
-        initialised: "1",
-        text: "Welcome to Roccoller v2! Press C to open the configuration menu. Here, you can change the text, colours, font, speed and more!",
-        textColour: "#FFFF00",
-        bgColour: "#000000",
-        fontFamily: "Arial",
-        fontSize: "32",
-        margin: "4",
-        speed: "100",
-        FPS: "60",
-        AOT: "1",
-        width: "800",
-        height: "40"
-    });
+    window.api.send("cfgUpdate", "default");
 }
 
-function changeFontSize(amount, setNotIncrement=false)
+function changeFontSize(amount, set=false)
 {
     if ((amount <= 0 && fontSize > 16) || (amount >= 0 && fontSize < 200))
     {
-        if (setNotIncrement)
+        if (set)
             fontSize = amount;
         else
             fontSize += amount;
+
         configElements.fontSizePreview.style = "font-size:"+fontSize+"px";
         configElements.fontSizePreview.innerHTML = fontSize.toString() + "px";
     }
 }
-changeFontSize(0);
+
+function autoHeightToggled()
+{
+    configElements.heightInput.disabled = !!configElements.autoHeight.checked;
+}
 
 window.api.receive("cfgReturn", (data) => {
     configElements.textInput.value = data.text;
@@ -79,9 +73,11 @@ window.api.receive("cfgReturn", (data) => {
     configElements.marginInput.value = data.margin;
     configElements.speedInput.value = data.speed;
     configElements.FPSInput.value = data.FPS;
-    configElements.AOTInput.value = data.AOT;
+    configElements.AOTInput.checked = parseInt(data.AOT);
     configElements.widthInput.value = data.width;
     configElements.heightInput.value = data.height;
+    configElements.autoHeight.checked = parseInt(data.autoHeight);
+    autoHeightToggled();
 });
 window.api.send("cfgRequest");
 
