@@ -1,5 +1,6 @@
-# Roccoller V2
-The fully customisable text scroller, made by Rocco.
+# This project has been archived.
+Due to how simple this application is, I have rewritten it in C for performance. Please see my "scroller" project which replaces this repo.
+https://github.com/dev-rocco/scroller
 
 ## About
 Developed with Electron.
